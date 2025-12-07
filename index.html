@@ -41,14 +41,23 @@
         }
 
         .progress-circle {
-            background: conic-gradient(#bf4e49 0% 85%, #f3f4f6 85% 100%);
+            /* Default fallback */
+            background: conic-gradient(#f59e0b 0% 0%, #f3f4f6 0% 100%);
             border-radius: 50%;
+            transition: background 1s ease-in-out;
+        }
+        
+        /* Pattern background */
+        .pattern-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
         }
     </style>
 </head>
-<body class="h-screen w-full bg-gradient-to-br from-[#d16ba5] via-[#c777b9] to-[#ba83ca] overflow-hidden relative">
-    <!-- Overriding gradient to match image more closely -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#cd676a] to-[#ebb2ad]"></div>
+<body class="h-screen w-full bg-gradient-to-br from-blue-400 via-cyan-300 to-blue-500 overflow-hidden relative">
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0 bg-gradient-to-t from-blue-600/40 to-transparent"></div>
+    <!-- Pattern overlay -->
+    <div class="absolute inset-0 pattern-overlay pointer-events-none"></div>
 
     <div class="relative z-10 flex flex-col items-center justify-center h-full w-full px-4">
         
@@ -57,22 +66,22 @@
             <!-- Main Logo Card -->
             <div class="bg-white rounded-[2.5rem] shadow-xl p-8 w-full max-w-xs sm:max-w-sm flex flex-col items-center justify-center mb-6 fade-in-up transform hover:scale-105 transition-transform duration-300">
                 <!-- Brand Name -->
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-[#bf3125] tracking-wide mb-1 text-center">VOCAL-HEALTH</h1>
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-900 tracking-wide mb-1 text-center">VOCAL-HEALTH</h1>
                 
                 <!-- Tagline -->
-                <div class="w-full border-t-2 border-[#bf3125] my-4 opacity-20"></div>
-                <p class="text-[0.6rem] font-bold text-[#bf3125] tracking-widest text-center mt-1">NON-INVASIVE MONITORING AND OBSERVATION</p>
+                <div class="w-full border-t-2 border-blue-200 my-4 opacity-50"></div>
+                <p class="text-[0.6rem] font-bold text-blue-700 tracking-widest text-center mt-1">NON-INVASIVE MONITORING AND OBSERVATION</p>
             </div>
 
             <!-- Info Card -->
-            <div class="bg-white/40 backdrop-blur-sm rounded-2xl p-8 w-full max-w-lg text-center shadow-lg border border-white/30 fade-in-up-delay">
-                <h2 class="text-xl font-bold text-[#a64444] mb-4">Welcome to VOCAL-HEALTH</h2>
+            <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 w-full max-w-lg text-center shadow-lg border border-white/50 fade-in-up-delay">
+                <h2 class="text-xl font-bold text-blue-900 mb-4">Welcome to VOCAL-HEALTH</h2>
                 
                 <p class="text-sm text-gray-800 leading-relaxed mb-8 max-w-md mx-auto font-medium">
                     VOCAL-HEALTH is a non-invasive system designed to assist in early detection through voice analysis. Accessible and easy for everyone.
                 </p>
                 
-                <button onclick="showRecordingInterface()" class="bg-[#bf4e49] hover:bg-[#a33d39] text-white font-medium text-sm py-3 px-12 rounded-full shadow-md transition-all hover:shadow-lg active:scale-95">
+                <button onclick="showRecordingInterface()" class="bg-amber-500 hover:bg-amber-600 text-blue-900 font-bold text-sm py-3 px-12 rounded-full shadow-md transition-all hover:shadow-lg active:scale-95">
                     Start
                 </button>
             </div>
@@ -84,25 +93,25 @@
                 
                 <!-- Normal Recording UI -->
                 <div id="recording-ui" class="w-full flex flex-col items-center">
-                    <h2 class="text-2xl font-bold text-[#bf3125] mb-2">Voice Input</h2>
+                    <h2 class="text-2xl font-bold text-blue-900 mb-2">Voice Input</h2>
                     <p class="text-xs text-gray-600 mb-8 text-center">Please record your voice or upload an audio file.</p>
 
                     <!-- Record Button -->
-                    <button id="recordBtn" onclick="toggleRecording()" class="group relative flex items-center justify-center w-24 h-24 rounded-full bg-[#bf4e49] shadow-lg hover:bg-[#a33d39] transition-all duration-300 mb-6 active:scale-95 z-10">
+                    <button id="recordBtn" onclick="toggleRecording()" class="group relative flex items-center justify-center w-24 h-24 rounded-full bg-amber-500 shadow-lg hover:bg-amber-600 transition-all duration-300 mb-6 active:scale-95 z-10">
                         <!-- Mic Icon -->
-                        <svg id="micIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg id="micIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-900 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                         </svg>
                         <!-- Stop Icon (Hidden initially) -->
-                        <svg id="stopIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg id="stopIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-900 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
                         </svg>
                         
                         <!-- Pulse effect ring -->
-                        <span id="pulseRing" class="absolute inline-flex h-full w-full rounded-full bg-[#bf4e49] opacity-0"></span>
+                        <span id="pulseRing" class="absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-0"></span>
                     </button>
-                    <span id="recordText" class="text-sm font-semibold text-[#bf3125] mb-6">Tap to Record</span>
+                    <span id="recordText" class="text-sm font-semibold text-blue-700 mb-6">Tap to Record</span>
 
                     <div class="flex items-center w-full mb-6">
                         <div class="h-px bg-gray-300 flex-1"></div>
@@ -112,10 +121,10 @@
 
                     <!-- File Upload -->
                     <div class="w-full">
-                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#bf4e49]/30 rounded-xl cursor-pointer bg-[#fff5f5] hover:bg-[#ffebeb] transition-colors group">
+                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-amber-400/50 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-colors group">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-2 text-[#bf4e49] opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                <p class="mb-1 text-xs text-gray-500"><span class="font-bold text-[#bf4e49]">Click to upload</span> audio file</p>
+                                <svg class="w-8 h-8 mb-2 text-amber-500 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                <p class="mb-1 text-xs text-gray-500"><span class="font-bold text-amber-600">Click to upload</span> audio file</p>
                                 <p class="text-[10px] text-gray-400">MP3, WAV, M4A</p>
                             </div>
                             <input type="file" class="hidden" accept="audio/*" onchange="handleFileUpload(this)" />
@@ -126,19 +135,20 @@
                 <!-- Analyzing UI (Hidden initially) -->
                 <div id="analyzing-ui" class="hidden w-full flex-col items-center justify-center py-10">
                     <div class="relative w-32 h-32 flex items-center justify-center mb-6">
-                        <div class="absolute inset-0 bg-[#bf4e49] rounded-full opacity-20 pulse-ring"></div>
-                        <div class="absolute inset-0 bg-[#bf4e49] rounded-full opacity-20 pulse-ring" style="animation-delay: 1s;"></div>
+                        <div class="absolute inset-0 bg-amber-500 rounded-full opacity-20 pulse-ring"></div>
+                        <div class="absolute inset-0 bg-amber-500 rounded-full opacity-20 pulse-ring" style="animation-delay: 1s;"></div>
                         <div class="relative z-10 bg-white p-4 rounded-full shadow-lg">
-                            <svg class="w-12 h-12 text-[#bf4e49] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-12 h-12 text-amber-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-[#bf3125] mb-2">Analyzing Voice Patterns...</h3>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Analyzing Voice Patterns...</h3>
                     <p class="text-xs text-gray-500">Comparing with vocal biomarkers</p>
                 </div>
 
-                <button onclick="location.reload()" class="mt-6 text-xs text-gray-500 underline hover:text-[#bf4e49]">Cancel</button>
+                <!-- Cancel Button -->
+                <button onclick="location.reload()" class="mt-6 text-xs text-gray-500 underline hover:text-amber-600">Cancel</button>
             </div>
         </div>
 
@@ -149,29 +159,30 @@
 
                 <!-- Score Circle -->
                 <div class="relative w-40 h-40 mb-6 flex items-center justify-center">
-                    <!-- Conic Gradient Background for Chart -->
-                    <div class="absolute inset-0 progress-circle shadow-inner"></div>
+                    <!-- Conic Gradient Background for Chart (Dynamic ID) -->
+                    <div id="scoreCircle" class="absolute inset-0 progress-circle shadow-inner"></div>
                     <!-- Inner White Circle -->
                     <div class="absolute inset-2 bg-white rounded-full flex flex-col items-center justify-center shadow-sm">
-                        <span class="text-4xl font-extrabold text-[#bf4e49]">85%</span>
+                        <!-- Score Text (Dynamic ID) -->
+                        <span id="resultScore" class="text-4xl font-extrabold text-gray-800">--%</span>
                         <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Risk Score</span>
                     </div>
                 </div>
 
-                <!-- Diagnosis Card -->
-                <div class="w-full bg-red-50 border-l-4 border-[#bf4e49] p-4 rounded-r-lg mb-6">
+                <!-- Diagnosis Card (Dynamic ID) -->
+                <div id="diagnosisCard" class="w-full bg-gray-50 border-l-4 border-gray-400 p-4 rounded-r-lg mb-6 transition-colors duration-500">
                     <div class="flex items-center gap-2 mb-2">
-                        <svg class="w-5 h-5 text-[#bf4e49]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        <h3 class="font-bold text-[#bf4e49] text-sm">Potential Issue Detected</h3>
+                        <!-- Icon (Dynamic Color) -->
+                        <svg id="diagnosisIcon" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <h3 id="diagnosisTitle" class="font-bold text-gray-800 text-sm">Analysis Complete</h3>
                     </div>
-                    <p class="text-sm text-gray-800 leading-snug">
-                        <span class="font-bold">Wheezing is indicated.</span> <br>
-                        Patterns suggest a risk of Asthma or early-stage COPD.
+                    <p id="diagnosisText" class="text-sm text-gray-800 leading-snug">
+                        Processing results...
                     </p>
                 </div>
 
                 <div class="w-full space-y-3">
-                    <button class="w-full bg-[#bf4e49] hover:bg-[#a33d39] text-white font-medium text-sm py-3 rounded-xl shadow-md transition-all">
+                    <button class="w-full bg-amber-500 hover:bg-amber-600 text-blue-900 font-bold text-sm py-3 rounded-xl shadow-md transition-all">
                         View Detailed Report
                     </button>
                     <button onclick="location.reload()" class="w-full bg-white border border-gray-200 text-gray-600 font-medium text-sm py-3 rounded-xl hover:bg-gray-50 transition-all">
@@ -183,12 +194,63 @@
         </div>
 
         <!-- Footer -->
-        <footer class="absolute bottom-6 text-[10px] text-gray-700 opacity-60 font-medium">
-            Made by VOCAL-HEALTH team for Indonesia
+        <footer class="absolute bottom-6 text-[10px] text-white/80 font-medium">
+            Made by VOCAL-HEALTH team
         </footer>
     </div>
 
     <script>
+        // --- DATA & LOGIC ---
+        
+        // Define possible diagnoses
+        const diagnosisScenarios = [
+            {
+                baseScore: 10,
+                title: "Healthy Voice",
+                description: "Clear resonance with stable pitch. <br>No significant issues detected.",
+                color: "#10b981", // Emerald 500
+                textColor: "text-emerald-600",
+                borderColor: "border-emerald-500",
+                bgColor: "bg-emerald-50"
+            },
+            {
+                baseScore: 45,
+                title: "Vocal Fatigue",
+                description: "<span class='font-bold'>Mild strain detected.</span> <br>Signs of overuse, stress, or dehydration.",
+                color: "#f59e0b", // Amber 500
+                textColor: "text-amber-600",
+                borderColor: "border-amber-500",
+                bgColor: "bg-amber-50"
+            },
+            {
+                baseScore: 72,
+                title: "Laryngitis Risk",
+                description: "<span class='font-bold'>Breathiness indicated.</span> <br>Potential inflammation or acute infection.",
+                color: "#f97316", // Orange 500
+                textColor: "text-orange-600",
+                borderColor: "border-orange-500",
+                bgColor: "bg-orange-50"
+            },
+            {
+                baseScore: 88,
+                title: "Vocal Fold Irregularity",
+                description: "<span class='font-bold'>Roughness detected.</span> <br>Risk of potential nodules or polyps.",
+                color: "#ef4444", // Red 500
+                textColor: "text-red-600",
+                borderColor: "border-red-500",
+                bgColor: "bg-red-50"
+            },
+            {
+                baseScore: 94,
+                title: "Respiratory Obstruction",
+                description: "<span class='font-bold'>Wheezing indicated.</span> <br>Risk of Asthma or early-stage COPD.",
+                color: "#b91c1c", // Red 700
+                textColor: "text-red-800",
+                borderColor: "border-red-700",
+                bgColor: "bg-red-100"
+            }
+        ];
+
         function showRecordingInterface() {
             const homeView = document.getElementById('home-view');
             const recView = document.getElementById('recording-view');
@@ -240,9 +302,17 @@
             // 1. Switch from Record UI to Analyze UI (within same card)
             recUI.classList.add('hidden');
             analyzeUI.classList.remove('hidden');
-            analyzeUI.classList.add('flex'); // Ensure flex display
+            analyzeUI.classList.add('flex');
 
-            // 2. Wait 2 seconds then show results
+            // 2. Determine Result (Random Simulation)
+            // Pick a random index from the scenarios array
+            const scenarioIndex = Math.floor(Math.random() * diagnosisScenarios.length);
+            const scenario = diagnosisScenarios[scenarioIndex];
+            
+            // Add slight variation to the score (+0 to +4)
+            const finalScore = scenario.baseScore + Math.floor(Math.random() * 5);
+
+            // 3. Wait 2 seconds then show results
             setTimeout(() => {
                 // Fade out recording/analyzing card
                 recView.style.opacity = '0';
@@ -251,9 +321,30 @@
                 setTimeout(() => {
                     recView.classList.add('hidden');
                     
+                    // --- POPULATE RESULTS ---
+                    const scoreCircle = document.getElementById('scoreCircle');
+                    const scoreText = document.getElementById('resultScore');
+                    const diagCard = document.getElementById('diagnosisCard');
+                    const diagTitle = document.getElementById('diagnosisTitle');
+                    const diagText = document.getElementById('diagnosisText');
+                    const diagIcon = document.getElementById('diagnosisIcon');
+
+                    // Set Text
+                    scoreText.innerText = finalScore + "%";
+                    scoreText.style.color = scenario.color;
+                    diagTitle.innerText = scenario.title;
+                    diagTitle.className = `font-bold text-sm ${scenario.textColor}`; // Apply text color class
+                    diagText.innerHTML = scenario.description;
+                    
+                    // Set Colors
+                    diagCard.className = `w-full ${scenario.bgColor} border-l-4 ${scenario.borderColor} p-4 rounded-r-lg mb-6 shadow-sm`;
+                    diagIcon.style.color = scenario.color;
+                    
+                    // Set Circle Gradient
+                    scoreCircle.style.background = `conic-gradient(${scenario.color} 0% ${finalScore}%, #f3f4f6 ${finalScore}% 100%)`;
+
                     // Show Results
                     resultsView.classList.remove('hidden');
-                    // Trigger reflow for animation
                     void resultsView.offsetWidth;
                     resultsView.classList.remove('opacity-0');
                 }, 300);
@@ -271,4 +362,3 @@
     </script>
 </body>
 </html>
-
