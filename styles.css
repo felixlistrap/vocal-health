@@ -62,6 +62,16 @@ body::before {
     justify-content: center;
 }
 
+/* ===== Company Logo ===== */
+.company-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: auto;
+    z-index: 10;
+}
+
 /* ===== Card ===== */
 .card {
     background: var(--white);
@@ -71,6 +81,7 @@ body::before {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     text-align: center;
     will-change: opacity, transform;
+    position: relative;
 }
 
 /* ===== View Transitions ===== */
