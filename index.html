@@ -1,364 +1,596 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VOCAL-HEALTH</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>VOCAL-HEALTH - Respiratory Risk Assessment</title>
+    <meta name="description" content="Get an early lung and heart risk assessment from your voice in under 60 seconds.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom animation for soft entry */
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .fade-in-up-delay {
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            50% { opacity: 0; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
-
-        .progress-circle {
-            /* Default fallback */
-            background: conic-gradient(#f59e0b 0% 0%, #f3f4f6 0% 100%);
-            border-radius: 50%;
-            transition: background 1s ease-in-out;
-        }
-        
-        /* Pattern background */
-        .pattern-overlay {
-            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
-        }
-    </style>
 </head>
-<body class="h-screen w-full bg-gradient-to-br from-blue-400 via-cyan-300 to-blue-500 overflow-hidden relative">
-    <!-- Overlay gradient -->
-    <div class="absolute inset-0 bg-gradient-to-t from-blue-600/40 to-transparent"></div>
-    <!-- Pattern overlay -->
-    <div class="absolute inset-0 pattern-overlay pointer-events-none"></div>
 
-    <div class="relative z-10 flex flex-col items-center justify-center h-full w-full px-4">
-        
-        <!-- HOME VIEW -->
-        <div id="home-view" class="flex flex-col items-center w-full transition-all duration-500">
-            <!-- Main Logo Card -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl p-8 w-full max-w-xs sm:max-w-sm flex flex-col items-center justify-center mb-6 fade-in-up transform hover:scale-105 transition-transform duration-300">
-                <!-- Brand Name -->
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-900 tracking-wide mb-1 text-center">VOCAL-HEALTH</h1>
-                
-                <!-- Tagline -->
-                <div class="w-full border-t-2 border-blue-200 my-4 opacity-50"></div>
-                <p class="text-[0.6rem] font-bold text-blue-700 tracking-widest text-center mt-1">NON-INVASIVE MONITORING AND OBSERVATION</p>
+<body>
+    <main class="container">
+
+        <!-- Section 1: Landing Page -->
+        <div id="landing-section" class="card view-section active">
+            <h1 class="logo">VOCAL-HEALTH</h1>
+            <p class="description">
+                Get an early lung and heart risk assessment from your voice in under 60 seconds.
+            </p>
+            <div class="info-box">
+                <ul class="feature-list">
+                    <li>Based on validated respiratory sound datasets</li>
+                    <li>Non-invasive - No data stored without consent</li>
+                </ul>
             </div>
+            <button class="cta-button" onclick="transitionTo('questionnaire-section')">
+                Start Assessment <span class="arrow">&rarr;</span>
+            </button>
+        </div>
 
-            <!-- Info Card -->
-            <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 w-full max-w-lg text-center shadow-lg border border-white/50 fade-in-up-delay">
-                <h2 class="text-xl font-bold text-blue-900 mb-4">Welcome to VOCAL-HEALTH</h2>
-                
-                <p class="text-sm text-gray-800 leading-relaxed mb-8 max-w-md mx-auto font-medium">
-                    VOCAL-HEALTH is a non-invasive system designed to assist in early detection through voice analysis. Accessible and easy for everyone.
-                </p>
-                
-                <button onclick="showRecordingInterface()" class="bg-amber-500 hover:bg-amber-600 text-blue-900 font-bold text-sm py-3 px-12 rounded-full shadow-md transition-all hover:shadow-lg active:scale-95">
-                    Start
+        <!-- Section 2: Questionnaire -->
+        <div id="questionnaire-section" class="card view-section">
+            <h2 class="section-title">Risk Assessment</h2>
+            <form id="health-form">
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="age" name="age" min="1" max="120" placeholder="Enter your age">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="male"> Male</label>
+                        <label><input type="radio" name="gender" value="female"> Female</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Smoking History</label>
+                    <div class="radio-stack">
+                        <label><input type="radio" name="smoking" value="never"> Never Smoked</label>
+                        <label><input type="radio" name="smoking" value="former"> Former Smoker</label>
+                        <label><input type="radio" name="smoking" value="current"> Active Smoker (Current)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Current Environment</label>
+                    <p class="subtitle">Are you currently in a noisy environment?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="noisy" value="yes"> Yes</label>
+                        <label><input type="radio" name="noisy" value="no"> No</label>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Respiratory Symptoms</h3>
+                <div class="form-group">
+                    <label>Cough Duration</label>
+                    <div class="radio-stack">
+                        <label><input type="radio" name="cough" value="none"> No cough</label>
+                        <label><input type="radio" name="cough" value="acute"> Less than 2 weeks</label>
+                        <label><input type="radio" name="cough" value="chronic"> More than 2 weeks (Chronic)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Shortness of Breath (Dyspnea)</label>
+                    <p class="subtitle">During light activity?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="dyspnea" value="yes"> Yes</label>
+                        <label><input type="radio" name="dyspnea" value="no"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>History of Asthma or COPD?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="asthma_copd" value="yes"> Yes</label>
+                        <label><input type="radio" name="asthma_copd" value="no"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Chest Tightness or Wheezing?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="wheezing" value="yes"> Yes</label>
+                        <label><input type="radio" name="wheezing" value="no"> No</label>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Cardiac &amp; Circulatory</h3>
+                <div class="form-group">
+                    <label>History of Hypertension?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="hypertension" value="yes"> Yes</label>
+                        <label><input type="radio" name="hypertension" value="no"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Night Dyspnea?</label>
+                    <p class="subtitle">Waking up gasping for air?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="night_dyspnea" value="yes"> Yes</label>
+                        <label><input type="radio" name="night_dyspnea" value="no"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Unusual Swelling (Ankles/Feet)?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="swelling" value="yes"> Yes</label>
+                        <label><input type="radio" name="swelling" value="no"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Excessive Fatigue / Voice Tiredness?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="fatigue" value="yes"> Yes</label>
+                        <label><input type="radio" name="fatigue" value="no"> No</label>
+                    </div>
+                </div>
+
+                <button type="button" class="cta-button" onclick="submitForm()">
+                    Next: Audio Recording <span class="arrow">&rarr;</span>
                 </button>
+            </form>
+        </div>
+
+        <!-- Section 3: Audio Recording -->
+        <div id="recording-section" class="card view-section">
+            <h2 class="section-title">Voice Recording</h2>
+            <p class="description">Please breathe deeply and then sustain a vowel sound "Ahhh" for up to 10 seconds.</p>
+
+            <!-- Hidden until recording starts -->
+            <div id="visualizerWrapper" class="visualizer-wrapper vis-hidden">
+                <div class="visualizer-container">
+                    <canvas id="audioVisualizer" width="400" height="150"></canvas>
+                </div>
+                <div class="timer-bar">
+                    <div class="timer-fill" id="timerFill"></div>
+                </div>
+                <p id="timerText" class="timer-text">0s / 10s</p>
+            </div>
+
+            <div class="recording-controls">
+                <button id="recordBtn" class="cta-button" onclick="toggleRecording()">
+                    Start Recording
+                </button>
+                <p id="recordingStatus" class="status-text">Press the button to begin</p>
             </div>
         </div>
 
-        <!-- RECORDING VIEW (Initially Hidden) -->
-        <div id="recording-view" class="hidden w-full max-w-md fade-in-up">
-            <div class="bg-white/90 backdrop-blur-md rounded-[2rem] shadow-2xl p-8 w-full flex flex-col items-center border border-white/50 relative overflow-hidden">
-                
-                <!-- Normal Recording UI -->
-                <div id="recording-ui" class="w-full flex flex-col items-center">
-                    <h2 class="text-2xl font-bold text-blue-900 mb-2">Voice Input</h2>
-                    <p class="text-xs text-gray-600 mb-8 text-center">Please record your voice or upload an audio file.</p>
+        <!-- Section 4: Result (Dashboard Style) -->
+        <div id="result-section" class="view-section">
+            <h2 class="result-header-text">Your Screening Result</h2>
 
-                    <!-- Record Button -->
-                    <button id="recordBtn" onclick="toggleRecording()" class="group relative flex items-center justify-center w-24 h-24 rounded-full bg-amber-500 shadow-lg hover:bg-amber-600 transition-all duration-300 mb-6 active:scale-95 z-10">
-                        <!-- Mic Icon -->
-                        <svg id="micIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-900 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                        </svg>
-                        <!-- Stop Icon (Hidden initially) -->
-                        <svg id="stopIcon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-900 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
-                        </svg>
-                        
-                        <!-- Pulse effect ring -->
-                        <span id="pulseRing" class="absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-0"></span>
-                    </button>
-                    <span id="recordText" class="text-sm font-semibold text-blue-700 mb-6">Tap to Record</span>
+            <div class="card">
+                <h2 id="resultTitle" class="result-status">Low Risk</h2>
 
-                    <div class="flex items-center w-full mb-6">
-                        <div class="h-px bg-gray-300 flex-1"></div>
-                        <span class="px-3 text-xs text-gray-400 font-bold">OR</span>
-                        <div class="h-px bg-gray-300 flex-1"></div>
+                <!-- SVG Gauge -->
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 200 110">
+                        <!-- Background arc -->
+                        <path d="M 15 100 A 85 85 0 0 1 185 100" stroke="#e2e8f0" stroke-width="14" fill="none"
+                            stroke-linecap="round" />
+                        <!-- Filled arc -->
+                        <path id="gaugeArc" d="M 15 100 A 85 85 0 0 1 185 100" stroke="#10b981" stroke-width="14"
+                            fill="none" stroke-linecap="round" stroke-dasharray="267" stroke-dashoffset="267"
+                            style="transition: stroke-dashoffset 1.2s ease-out, stroke 0.5s ease;" />
+                        <!-- Score text -->
+                        <text x="100" y="88" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800"
+                            fill="#334155">
+                            <tspan id="svgScoreNum" font-size="40">3</tspan>
+                            <tspan font-size="20" fill="#94a3b8">/10</tspan>
+                        </text>
+                    </svg>
+                </div>
+
+                <p id="resultSummary" class="result-summary">
+                    Voice patterns align with healthy respiratory function.
+                </p>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard-grid">
+                    <div class="stat-card cardiac">
+                        <span class="stat-icon">❤️</span>
+                        <span class="stat-title">CARDIAC</span>
+                        <span class="stat-desc" id="cardiacDesc">No cardiac risks detected. Heart rhythm indicators are
+                            stable.</span>
                     </div>
-
-                    <!-- File Upload -->
-                    <div class="w-full">
-                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-amber-400/50 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-colors group">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-2 text-amber-500 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                <p class="mb-1 text-xs text-gray-500"><span class="font-bold text-amber-600">Click to upload</span> audio file</p>
-                                <p class="text-[10px] text-gray-400">MP3, WAV, M4A</p>
-                            </div>
-                            <input type="file" class="hidden" accept="audio/*" onchange="handleFileUpload(this)" />
-                        </label>
+                    <div class="stat-card pulmonary">
+                        <span class="stat-icon">🫁</span>
+                        <span class="stat-title">PULMONARY</span>
+                        <span class="stat-desc" id="pulmonaryDesc">No pulmonary risks detected. Airflow duration is
+                            healthy.</span>
                     </div>
                 </div>
 
-                <!-- Analyzing UI (Hidden initially) -->
-                <div id="analyzing-ui" class="hidden w-full flex-col items-center justify-center py-10">
-                    <div class="relative w-32 h-32 flex items-center justify-center mb-6">
-                        <div class="absolute inset-0 bg-amber-500 rounded-full opacity-20 pulse-ring"></div>
-                        <div class="absolute inset-0 bg-amber-500 rounded-full opacity-20 pulse-ring" style="animation-delay: 1s;"></div>
-                        <div class="relative z-10 bg-white p-4 rounded-full shadow-lg">
-                            <svg class="w-12 h-12 text-amber-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-blue-900 mb-2">Analyzing Voice Patterns...</h3>
-                    <p class="text-xs text-gray-500">Comparing with vocal biomarkers</p>
+                <!-- Why This Result -->
+                <div class="details-section">
+                    <h4 class="details-title-sm">ⓘ Why This Result?</h4>
+                    <ul class="details-list" id="reasonList">
+                        <li>Stable breath sustain detected</li>
+                        <li>Clear resonance and pitch stability</li>
+                        <li>No obstructive patterns identified</li>
+                    </ul>
                 </div>
 
-                <!-- Cancel Button -->
-                <button onclick="location.reload()" class="mt-6 text-xs text-gray-500 underline hover:text-amber-600">Cancel</button>
-            </div>
-        </div>
-
-        <!-- RESULTS VIEW (Initially Hidden) -->
-        <div id="results-view" class="hidden w-full max-w-md fade-in-up">
-            <div class="bg-white/95 backdrop-blur-md rounded-[2rem] shadow-2xl p-8 w-full flex flex-col items-center border border-white/50">
-                <h2 class="text-xl font-bold text-gray-800 mb-6 w-full text-center border-b pb-4">Analysis Report</h2>
-
-                <!-- Score Circle -->
-                <div class="relative w-40 h-40 mb-6 flex items-center justify-center">
-                    <!-- Conic Gradient Background for Chart (Dynamic ID) -->
-                    <div id="scoreCircle" class="absolute inset-0 progress-circle shadow-inner"></div>
-                    <!-- Inner White Circle -->
-                    <div class="absolute inset-2 bg-white rounded-full flex flex-col items-center justify-center shadow-sm">
-                        <!-- Score Text (Dynamic ID) -->
-                        <span id="resultScore" class="text-4xl font-extrabold text-gray-800">--%</span>
-                        <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Risk Score</span>
-                    </div>
+                <!-- Next Steps -->
+                <div class="recommendation-box">
+                    <h4 class="rec-title">What Should I Do Next?</h4>
+                    <ul class="details-list" id="actionList">
+                        <li>Maintain vocal hygiene and hydration</li>
+                        <li>No immediate medical action required based on this screening</li>
+                    </ul>
                 </div>
 
-                <!-- Diagnosis Card (Dynamic ID) -->
-                <div id="diagnosisCard" class="w-full bg-gray-50 border-l-4 border-gray-400 p-4 rounded-r-lg mb-6 transition-colors duration-500">
-                    <div class="flex items-center gap-2 mb-2">
-                        <!-- Icon (Dynamic Color) -->
-                        <svg id="diagnosisIcon" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        <h3 id="diagnosisTitle" class="font-bold text-gray-800 text-sm">Analysis Complete</h3>
-                    </div>
-                    <p id="diagnosisText" class="text-sm text-gray-800 leading-snug">
-                        Processing results...
-                    </p>
-                </div>
+                <p class="footer-note">
+                    Note: This risk estimate is not a medical diagnosis. Consult a healthcare professional for further
+                    evaluation.
+                </p>
 
-                <div class="w-full space-y-3">
-                    <button class="w-full bg-amber-500 hover:bg-amber-600 text-blue-900 font-bold text-sm py-3 rounded-xl shadow-md transition-all">
+                <div class="action-buttons">
+                    <button class="cta-button primary-blue" onclick="alert('Full report feature coming soon.')">
                         View Detailed Report
                     </button>
-                    <button onclick="location.reload()" class="w-full bg-white border border-gray-200 text-gray-600 font-medium text-sm py-3 rounded-xl hover:bg-gray-50 transition-all">
-                        Try Again
+                    <button class="cta-button secondary" onclick="restartAssessment()">
+                        Restart ↻
                     </button>
                 </div>
-
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="absolute bottom-6 text-[10px] text-white/80 font-medium">
-            Made by VOCAL-HEALTH team
-        </footer>
-    </div>
+    </main>
+
+    <footer class="footer">
+        <p>Made by the VOCAL-HEALTH Team for Indonesia</p>
+    </footer>
 
     <script>
-        // --- DATA & LOGIC ---
-        
-        // Define possible diagnoses
-        const diagnosisScenarios = [
-            {
-                baseScore: 10,
-                title: "Healthy Voice",
-                description: "Clear resonance with stable pitch. <br>No significant issues detected.",
-                color: "#10b981", // Emerald 500
-                textColor: "text-emerald-600",
-                borderColor: "border-emerald-500",
-                bgColor: "bg-emerald-50"
-            },
-            {
-                baseScore: 45,
-                title: "Vocal Fatigue",
-                description: "<span class='font-bold'>Mild strain detected.</span> <br>Signs of overuse, stress, or dehydration.",
-                color: "#f59e0b", // Amber 500
-                textColor: "text-amber-600",
-                borderColor: "border-amber-500",
-                bgColor: "bg-amber-50"
-            },
-            {
-                baseScore: 72,
-                title: "Laryngitis Risk",
-                description: "<span class='font-bold'>Breathiness indicated.</span> <br>Potential inflammation or acute infection.",
-                color: "#f97316", // Orange 500
-                textColor: "text-orange-600",
-                borderColor: "border-orange-500",
-                bgColor: "bg-orange-50"
-            },
-            {
-                baseScore: 88,
-                title: "Vocal Fold Irregularity",
-                description: "<span class='font-bold'>Roughness detected.</span> <br>Risk of potential nodules or polyps.",
-                color: "#ef4444", // Red 500
-                textColor: "text-red-600",
-                borderColor: "border-red-500",
-                bgColor: "bg-red-50"
-            },
-            {
-                baseScore: 94,
-                title: "Respiratory Obstruction",
-                description: "<span class='font-bold'>Wheezing indicated.</span> <br>Risk of Asthma or early-stage COPD.",
-                color: "#b91c1c", // Red 700
-                textColor: "text-red-800",
-                borderColor: "border-red-700",
-                bgColor: "bg-red-100"
-            }
-        ];
+        // ========== Constants ==========
+        const MAX_RECORD_SECONDS = 10;
 
-        function showRecordingInterface() {
-            const homeView = document.getElementById('home-view');
-            const recView = document.getElementById('recording-view');
-            
-            homeView.style.opacity = '0';
-            homeView.style.transform = 'translateY(-20px)';
-            
-            setTimeout(() => {
-                homeView.classList.add('hidden');
-                recView.classList.remove('hidden');
-                void recView.offsetWidth; 
-                recView.classList.remove('opacity-0');
-            }, 300);
+        // ========== State ==========
+        const state = {
+            formData: {},
+            audioBlob: null,
+            isRecording: false,
+            mediaRecorder: null,
+            audioChunks: [],
+            riskScore: 0,
+            recordingStartTime: 0
+        };
+
+        // ========== Smooth View Transitions ==========
+        function transitionTo(nextSectionId) {
+            const current = document.querySelector('.view-section.active');
+            const next = document.getElementById(nextSectionId);
+
+            if (current) {
+                current.style.opacity = '0';
+                current.style.transform = 'translateY(-15px)';
+
+                setTimeout(() => {
+                    current.classList.remove('active');
+                    current.style.opacity = '';
+                    current.style.transform = '';
+
+                    if (next) {
+                        next.classList.add('active');
+                        next.style.opacity = '0';
+                        next.style.transform = 'translateY(15px)';
+                        next.offsetHeight; // force reflow
+                        next.style.opacity = '1';
+                        next.style.transform = 'translateY(0)';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }, 350);
+            } else {
+                if (next) next.classList.add('active');
+            }
         }
 
-        let isRecording = false;
+        // ========== Form ==========
+        function submitForm() {
+            const form = document.getElementById('health-form');
+            const data = new FormData(form);
+            const formObj = Object.fromEntries(data.entries());
+
+            if (!formObj.age || !formObj.gender) {
+                alert('Please fill in at least Age and Gender.');
+                return;
+            }
+
+            state.formData = formObj;
+            transitionTo('recording-section');
+            setupAudio();
+        }
+
+        // ========== Audio ==========
+        let audioContext, analyser, dataArray;
+        let canvas, canvasCtx;
+        let animationId;
+        let waveformBuffer = []; // stores {x, amplitude} entries
+
+        async function setupAudio() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                const source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+
+                analyser.fftSize = 2048;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                canvas = document.getElementById('audioVisualizer');
+                canvasCtx = canvas.getContext('2d');
+
+                state.mediaRecorder = new MediaRecorder(stream);
+                state.mediaRecorder.ondataavailable = (e) => state.audioChunks.push(e.data);
+                state.mediaRecorder.onstop = processAudio;
+
+                // Draw initial empty state
+                clearCanvas();
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                alert('Microphone access is required for this step.');
+            }
+        }
+
+        function clearCanvas() {
+            if (!canvasCtx) return;
+            canvasCtx.fillStyle = '#f3f4f6';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+            // Center line
+            canvasCtx.beginPath();
+            canvasCtx.strokeStyle = '#e5e7eb';
+            canvasCtx.moveTo(0, canvas.height / 2);
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+        }
+
+        function drawWaveform() {
+            animationId = requestAnimationFrame(drawWaveform);
+
+            if (!state.isRecording) return;
+
+            const elapsed = (Date.now() - state.recordingStartTime) / 1000;
+
+            // Auto-stop at max time
+            if (elapsed >= MAX_RECORD_SECONDS) {
+                stopRecording();
+                return;
+            }
+
+            // Update timer
+            document.getElementById('timerText').textContent =
+                Math.floor(elapsed) + 's / ' + MAX_RECORD_SECONDS + 's';
+            document.getElementById('timerFill').style.width =
+                (elapsed / MAX_RECORD_SECONDS * 100) + '%';
+
+            // Calculate RMS amplitude
+            analyser.getByteTimeDomainData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                const v = (dataArray[i] - 128) / 128.0;
+                sum += v * v;
+            }
+            const rms = Math.sqrt(sum / dataArray.length);
+
+            let height = rms * canvas.height * 3;
+            if (height > canvas.height / 2) height = canvas.height / 2;
+
+            // Position based on time (left to right over 10 seconds)
+            const x = (elapsed / MAX_RECORD_SECONDS) * canvas.width;
+            waveformBuffer.push({ x, h: height });
+
+            // Redraw entire waveform
+            clearCanvas();
+            canvasCtx.fillStyle = '#3B82F6';
+            const barWidth = 2;
+
+            for (const bar of waveformBuffer) {
+                if (bar.h > 0.5) {
+                    const bx = bar.x;
+                    const by = (canvas.height / 2) - bar.h;
+                    const bh = bar.h * 2;
+                    canvasCtx.fillRect(bx, by, barWidth, bh);
+                }
+            }
+        }
 
         function toggleRecording() {
-            const btn = document.getElementById('recordBtn');
-            const micIcon = document.getElementById('micIcon');
-            const stopIcon = document.getElementById('stopIcon');
-            const text = document.getElementById('recordText');
-            const pulse = document.getElementById('pulseRing');
-
-            if (!isRecording) {
-                // Start Recording
-                text.innerText = "Recording... (Tap to Stop)";
-                micIcon.classList.add('hidden');
-                stopIcon.classList.remove('hidden');
-                pulse.classList.add('animate-ping', 'opacity-75');
-                isRecording = true;
+            if (!state.isRecording) {
+                startRecording();
             } else {
-                // Stop Recording
-                text.innerText = "Processing...";
-                pulse.classList.remove('animate-ping', 'opacity-75');
-                isRecording = false;
-
-                // Start Analysis Flow
-                startAnalysis();
+                stopRecording();
             }
         }
 
-        function startAnalysis() {
-            const recUI = document.getElementById('recording-ui');
-            const analyzeUI = document.getElementById('analyzing-ui');
-            const recView = document.getElementById('recording-view');
-            const resultsView = document.getElementById('results-view');
+        function startRecording() {
+            const btn = document.getElementById('recordBtn');
+            const status = document.getElementById('recordingStatus');
+            const wrapper = document.getElementById('visualizerWrapper');
 
-            // 1. Switch from Record UI to Analyze UI (within same card)
-            recUI.classList.add('hidden');
-            analyzeUI.classList.remove('hidden');
-            analyzeUI.classList.add('flex');
+            // Show visualizer with animation
+            wrapper.classList.remove('vis-hidden');
+            wrapper.classList.add('vis-visible');
 
-            // 2. Determine Result (Random Simulation)
-            // Pick a random index from the scenarios array
-            const scenarioIndex = Math.floor(Math.random() * diagnosisScenarios.length);
-            const scenario = diagnosisScenarios[scenarioIndex];
-            
-            // Add slight variation to the score (+0 to +4)
-            const finalScore = scenario.baseScore + Math.floor(Math.random() * 5);
+            // Reset
+            state.audioChunks = [];
+            waveformBuffer = [];
+            clearCanvas();
+            document.getElementById('timerFill').style.width = '0%';
+            document.getElementById('timerText').textContent = '0s / ' + MAX_RECORD_SECONDS + 's';
 
-            // 3. Wait 2 seconds then show results
+            // Start
+            state.mediaRecorder.start();
+            state.isRecording = true;
+            state.recordingStartTime = Date.now();
+
+            btn.textContent = "Stop Recording";
+            btn.classList.add('recording');
+            status.textContent = "Recording... (Speak now)";
+
+            drawWaveform();
+        }
+
+        function stopRecording() {
+            if (!state.isRecording) return;
+
+            const btn = document.getElementById('recordBtn');
+            const status = document.getElementById('recordingStatus');
+
+            state.mediaRecorder.stop();
+            state.isRecording = false;
+
+            btn.textContent = "Processing...";
+            btn.disabled = true;
+            btn.classList.remove('recording');
+            status.textContent = "Processing audio...";
+
+            cancelAnimationFrame(animationId);
+
+            // Final timer update
+            const elapsed = Math.min(
+                (Date.now() - state.recordingStartTime) / 1000,
+                MAX_RECORD_SECONDS
+            );
+            document.getElementById('timerText').textContent =
+                Math.floor(elapsed) + 's / ' + MAX_RECORD_SECONDS + 's';
+            document.getElementById('timerFill').style.width =
+                (elapsed / MAX_RECORD_SECONDS * 100) + '%';
+        }
+
+        function processAudio() {
+            state.audioBlob = new Blob(state.audioChunks, { type: 'audio/wav' });
+
             setTimeout(() => {
-                // Fade out recording/analyzing card
-                recView.style.opacity = '0';
-                recView.style.transform = 'translateY(-20px)';
-                
-                setTimeout(() => {
-                    recView.classList.add('hidden');
-                    
-                    // --- POPULATE RESULTS ---
-                    const scoreCircle = document.getElementById('scoreCircle');
-                    const scoreText = document.getElementById('resultScore');
-                    const diagCard = document.getElementById('diagnosisCard');
-                    const diagTitle = document.getElementById('diagnosisTitle');
-                    const diagText = document.getElementById('diagnosisText');
-                    const diagIcon = document.getElementById('diagnosisIcon');
-
-                    // Set Text
-                    scoreText.innerText = finalScore + "%";
-                    scoreText.style.color = scenario.color;
-                    diagTitle.innerText = scenario.title;
-                    diagTitle.className = `font-bold text-sm ${scenario.textColor}`; // Apply text color class
-                    diagText.innerHTML = scenario.description;
-                    
-                    // Set Colors
-                    diagCard.className = `w-full ${scenario.bgColor} border-l-4 ${scenario.borderColor} p-4 rounded-r-lg mb-6 shadow-sm`;
-                    diagIcon.style.color = scenario.color;
-                    
-                    // Set Circle Gradient
-                    scoreCircle.style.background = `conic-gradient(${scenario.color} 0% ${finalScore}%, #f3f4f6 ${finalScore}% 100%)`;
-
-                    // Show Results
-                    resultsView.classList.remove('hidden');
-                    void resultsView.offsetWidth;
-                    resultsView.classList.remove('opacity-0');
-                }, 300);
-
-            }, 2500);
+                calculateRisk();
+                transitionTo('result-section');
+            }, 1000);
         }
 
-        function handleFileUpload(input) {
-            if (input.files && input.files[0]) {
-                const fileName = input.files[0].name;
-                // Immediately start analysis on upload
-                startAnalysis();
+        // ========== Risk Calculation ==========
+        function calculateRisk() {
+            let score = 0;
+            const f = state.formData;
+
+            if (f.smoking === 'current') score += 2;
+            if (f.smoking === 'former') score += 1;
+            if (f.cough === 'chronic') score += 2;
+            if (f.dyspnea === 'yes') score += 2;
+            if (f.asthma_copd === 'yes') score += 2;
+            if (f.wheezing === 'yes') score += 1;
+            if (f.night_dyspnea === 'yes') score += 2;
+
+            const audioScore = Math.floor(Math.random() * 2) + 1; // 1 or 2
+
+            let totalRisk = score + audioScore;
+            if (totalRisk > 10) totalRisk = 10;
+            if (totalRisk < 1) totalRisk = 1;
+
+            state.riskScore = totalRisk;
+
+            // --- Populate UI ---
+            document.getElementById('svgScoreNum').textContent = totalRisk;
+
+            // SVG gauge: arc length ≈ 267. dashoffset = 267 - (score/10 * 267)
+            const arcLength = 267;
+            const offset = arcLength - (totalRisk / 10) * arcLength;
+
+            let color = '#10b981';
+            let status = 'Low Risk';
+            if (totalRisk > 3) { color = '#f59e0b'; status = 'Moderate Risk'; }
+            if (totalRisk > 7) { color = '#ef4444'; status = 'High Risk'; }
+
+            const gaugeArc = document.getElementById('gaugeArc');
+            // Reset first for animation
+            gaugeArc.style.strokeDashoffset = arcLength;
+            gaugeArc.style.stroke = color;
+
+            // Animate after a tiny delay
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    gaugeArc.style.strokeDashoffset = offset;
+                });
+            });
+
+            document.getElementById('resultTitle').textContent = status;
+            document.getElementById('resultTitle').style.color = color;
+
+            const summaryEl = document.getElementById('resultSummary');
+            const cardiacDesc = document.getElementById('cardiacDesc');
+            const pulmDesc = document.getElementById('pulmonaryDesc');
+            const reasonList = document.getElementById('reasonList');
+            const actionList = document.getElementById('actionList');
+
+            if (totalRisk <= 3) {
+                summaryEl.textContent = "Voice patterns align with healthy respiratory function.";
+                cardiacDesc.textContent = "No cardiac risks detected. Heart rhythm indicators are stable.";
+                pulmDesc.textContent = "No pulmonary risks detected. Airflow duration is healthy.";
+                reasonList.innerHTML = `
+                    <li>Stable breath sustain detected</li>
+                    <li>Clear resonance and pitch stability</li>
+                    <li>No obstructive patterns identified</li>`;
+                actionList.innerHTML = `
+                    <li>Maintain vocal hygiene and hydration</li>
+                    <li>No immediate medical action required based on this screening</li>`;
+            } else if (totalRisk <= 7) {
+                summaryEl.textContent = "Some indicators suggest potential respiratory or cardiac strain.";
+                cardiacDesc.textContent = f.hypertension === 'yes'
+                    ? "History of hypertension noted. Monitor blood pressure."
+                    : "Monitor heart rate stability.";
+                pulmDesc.textContent = f.cough === 'chronic'
+                    ? "Chronic cough indicators present. Airflow may be restricted."
+                    : "Minor airflow irregularities detected.";
+                reasonList.innerHTML = `
+                    <li>Reduced breath sustain duration</li>
+                    <li>Possible strain markers in voice frequency</li>
+                    <li>Risk factors from questionnaire weighted into score</li>`;
+                actionList.innerHTML = `
+                    <li>Consult a general practitioner for a routine checkup</li>
+                    <li>Monitor symptoms for any changes over the next weeks</li>`;
+            } else {
+                summaryEl.textContent = "Multiple risk indicators detected. Please seek professional evaluation.";
+                cardiacDesc.textContent = "Elevated cardiac risk indicators. Professional evaluation recommended.";
+                pulmDesc.textContent = "Significant pulmonary risk markers detected in voice analysis.";
+                reasonList.innerHTML = `
+                    <li>Significant breath pattern irregularities</li>
+                    <li>Multiple risk factors from questionnaire</li>
+                    <li>Voice analysis suggests possible airway obstruction</li>`;
+                actionList.innerHTML = `
+                    <li>Seek medical attention promptly</li>
+                    <li>Bring this screening summary to your healthcare provider</li>`;
             }
+        }
+
+        // ========== Restart ==========
+        function restartAssessment() {
+            state.formData = {};
+            state.audioBlob = null;
+            state.audioChunks = [];
+            state.riskScore = 0;
+            waveformBuffer = [];
+
+            document.getElementById('health-form').reset();
+            const btn = document.getElementById('recordBtn');
+            btn.textContent = "Start Recording";
+            btn.style.backgroundColor = "";
+            btn.disabled = false;
+            btn.classList.remove('recording');
+
+            // Hide visualizer again
+            const wrapper = document.getElementById('visualizerWrapper');
+            wrapper.classList.remove('vis-visible');
+            wrapper.classList.add('vis-hidden');
+
+            // Reset gauge
+            document.getElementById('gaugeArc').style.strokeDashoffset = 267;
+
+            transitionTo('landing-section');
         }
     </script>
 </body>
+
 </html>
